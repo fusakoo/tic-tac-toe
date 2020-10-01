@@ -1,3 +1,5 @@
+# Planning on moving the board aspect from main.rb to here
+
 # require_relative 'move'
 
 # class Board
