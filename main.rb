@@ -1,37 +1,30 @@
 # require_relative 'move'
 # require_relative 'display_board'
 
+# Status: Currently bugged 10/01/2020
+# 1. Does not display_board after every turn => resolved
+# 2. Position_taken? not working as expected
+# 3. Need to invalidate gets for values other than 1-9
+
 class TicTacToe
-  board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-
-  def initialize
-    puts "Let's play Tic Tac Toe!"
-    puts "\nUse numbers 1-9 to pick a spot on the grid."
-    puts "Player 1 will be 'X' and Player 2 will be 'O'"
-    puts "\n"
-    sample_board = %w[1 2 3 4 5 6 7 8 9]
-    display_board(sample_board)
-    puts "\n"
-
-  end
-
   def play(board)
-    until over?(board)
+    until end?(board)
       turn(board)
     end
     if won?(board)
-      winner(board) == "O" || winner(board) == 'O'
-      puts "#{winner(board)}."
+      winner(board) == 'O' || winner(board) == 'O'
+      puts " Ding ding! #{winner(board)} you did it!"
     elsif draw?(board)
-      puts "Draw."
+      puts " Draw!"
     end
   end
   
   def turn(board)
+    display_board(board)
     if turn_count(board).even?
-      puts 'Player 1, please enter 1-9: '
+      puts "\n Player 1('X'), please enter 1-9: "
     else
-      puts 'Player 2, please enter 1-9: '
+      puts "\n Player 2('O'), please enter 1-9: "
     end
     user_input = gets.strip
     index = input_to_index(user_input)
@@ -39,7 +32,6 @@ class TicTacToe
       move(board, index, current_player(board))
       turn(board)
     end
-    display_board(board)
   end
 
   WIN_COMBINATIONS = [
@@ -63,8 +55,11 @@ class TicTacToe
       position_2 = board[win_index_2]
       position_3 = board[win_index_3]
 
-      position_1 == position_2 && position_2 == position_3 && position_taken?(board, win_index_1)
+      if position_1 == position_2 && position_2 == position_3 && position_taken?(board, win_index_1)
+        win_combination
+      end
     end
+    false
   end
 
   def full?(board)
@@ -89,14 +84,14 @@ class TicTacToe
 
   def winner(board)
     if won?(board)
-      return board[won?(board)[0]]
+      board[won?(board)[0]]
     end
   end
 
   # helper methods
 
   def display_board(board)
-    puts " #{board[0]} | #{board[1]} | #{board[2]} "
+    puts "\n #{board[0]} | #{board[1]} | #{board[2]} "
     puts "-----------"
     puts " #{board[3]} | #{board[4]} | #{board[5]} "
     puts "-----------"
@@ -147,4 +142,24 @@ class TicTacToe
   end
 end
 
-TicTacToe.new
+stop_playing = false
+
+until stop_playing
+  new_game = TicTacToe.new
+
+  puts "\n Let's play Tic Tac Toe!"
+  puts "\n Use numbers 1-9 to pick a spot on the grid"
+  puts " Player 1 will be 'X' and Player 2 will be 'O'"
+  puts "\n"
+  sample_board = %w[1 2 3 4 5 6 7 8 9]
+  new_game.display_board(sample_board)
+  puts "\n"
+
+  board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+  new_game.play(board)
+
+  puts " To stop playing, type 'quit'. Otherwise, hit 'Enter' to play again."
+  next unless gets.chomp == 'quit'
+
+  stop_playing = true
+end
