@@ -24,7 +24,7 @@ class PlayTicTacToe
 
   def position_taken?(board, index)
     # ToDo: see if there's a way to simplify the code below using regex
-    if (board[index] != ' ') || (board[index] == "") || (board[index] == nil)
+    if (board[index] == ' ') || (board[index] == '') || (board[index] == nil)
       false
     else
       true
@@ -38,6 +38,22 @@ class PlayTicTacToe
   end
 
   def turn_count(board)
-    
-  end  
+    counter = 0
+    board.each do |space|
+      # if space == "X" || space == "O"
+      if %w[X O].include? space
+        counter += 1
+      end
+    end
+    counter
+  end
+
+  def current_player(board)
+    # turn_count(board) % 2 == 0 ? "X" : "O"
+    if turn_count(board).even?
+      'X'
+    else
+      'O'
+    end
+  end
 end
