@@ -1,24 +1,22 @@
 # require_relative 'move'
-# require_relative 'display_board'
 
 # Status: Currently bugged 10/01/2020
 # 1. Does not display_board after every turn => resolved
 # 2. Position_taken? not working as expected
-# 3. Need to invalidate gets for values other than 1-9
+# 3. Need to invalidate inputs for values other than 1-9
+# 4. Need to decouple some of the classes
 
 class TicTacToe
   def play(board)
-    until end?(board)
-      turn(board)
-    end
+    turn(board) until end?(board)
     if won?(board)
       winner(board) == 'O' || winner(board) == 'O'
-      puts " Ding ding! #{winner(board)} you did it!"
+      puts "\n Ding ding! #{winner(board)} you did it!"
     elsif draw?(board)
-      puts " Draw!"
+      puts "\n Draw!"
     end
   end
-  
+
   def turn(board)
     display_board(board)
     if turn_count(board).even?
@@ -88,15 +86,15 @@ class TicTacToe
     end
   end
 
-  # helper methods
-
   def display_board(board)
-    puts "\n #{board[0]} | #{board[1]} | #{board[2]} "
-    puts "-----------"
-    puts " #{board[3]} | #{board[4]} | #{board[5]} "
-    puts "-----------"
-    puts " #{board[6]} | #{board[7]} | #{board[8]} "
+    puts "\n  #{board[0]} | #{board[1]} | #{board[2]} "
+    puts " -----------"
+    puts "  #{board[3]} | #{board[4]} | #{board[5]} "
+    puts " -----------"
+    puts "  #{board[6]} | #{board[7]} | #{board[8]} "
   end
+
+  protected
 
   def input_to_index(input)
     input.to_i - 1
@@ -133,18 +131,13 @@ class TicTacToe
   end
 
   def current_player(board)
-    # turn_count(board) % 2 == 0 ? "X" : "O"
-    if turn_count(board).even?
-      'X'
-    else
-      'O'
-    end
+    turn_count(board).even? ? 'X' : 'O'
   end
 end
 
-stop_playing = false
+quit_playing = false
 
-until stop_playing
+until quit_playing
   new_game = TicTacToe.new
 
   puts "\n Let's play Tic Tac Toe!"
@@ -161,5 +154,5 @@ until stop_playing
   puts " To stop playing, type 'quit'. Otherwise, hit 'Enter' to play again."
   next unless gets.chomp == 'quit'
 
-  stop_playing = true
+  quit_playing = true
 end
