@@ -7,32 +7,18 @@
 # 4. Need to decouple some of the classes
 # 5. won? is not working
 
+module CreateBoard
+  def self.display_board(board)
+    puts "\n  #{board[0]} | #{board[1]} | #{board[2]} "
+    puts " -----------"
+    puts "  #{board[3]} | #{board[4]} | #{board[5]} "
+    puts " -----------"
+    puts "  #{board[6]} | #{board[7]} | #{board[8]} "
+  end
+end
+
 class TicTacToe
-  def play(board)
-    turn(board) until end?(board)
-    if won?(board)
-      winner(board) == 'O' || winner(board) == 'O'
-      puts "\n Ding ding! #{winner(board)} you did it!"
-    elsif draw?(board)
-      puts "\n Draw!"
-    end
-  end
-
-  def turn(board)
-    display_board(board)
-    if turn_count(board).even?
-      puts "\n Player 1('X'), please enter 1-9: "
-    else
-      puts "\n Player 2('O'), please enter 1-9: "
-    end
-    user_input = gets.strip
-    index = input_to_index(user_input)
-    if valid_move?(board, index)
-      move(board, index, current_player(board))
-      turn(board)
-    end
-  end
-
+  include CreateBoard
   WIN_COMBINATIONS = [
     [0, 1, 2],
     [3, 4, 5],
@@ -44,41 +30,43 @@ class TicTacToe
     [6, 4, 2]
   ]
 
+  # def initialize
+  #   @board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+  # end
+
+  def play(board)
+    turn(board) until over?(board)
+    if won?(board)
+      winner(board) == 'X' || winner(board) == 'O'
+      puts "\n Ding ding! #{winner(board)} you did it!"
+    elsif draw?(board)
+      puts "\n Draw!"
+    end
+  end
+
+  def turn(board)
+    if turn_count(board).even?
+      puts "\n Player 1('X'), please enter 1-9: "
+    else
+      puts "\n Player 2('O'), please enter 1-9: "
+    end
+    user_input = gets.strip
+    index = input_to_index(user_input)
+    if valid_move?(board, index)
+      move(board, index, current_player(board))
+      CreateBoard.display_board(board)
+    end
+  end
+
   def won?(board)
     WIN_COMBINATIONS.each do |win_combination|
-      win_index_1 = win_combination[0]
-      win_index_2 = win_combination[1]
-      win_index_3 = win_combination[2]
+      position_1 = board[win_combination[0]]
+      position_2 = board[win_combination[1]]
+      position_3 = board[win_combination[2]]
 
-      position_1 = board[win_index_1]
-      position_2 = board[win_index_2]
-      position_3 = board[win_index_3]
-
-      if position_1 == position_2 && position_2 == position_3 && position_taken?(board, win_index_1)
-        win_combination
-      end
+      position_1 == position_2 && position_2 == position_3 #&& position_taken?(board, win_combination[0])
     end
     false
-  end
-
-  def full?(board)
-    board.all? {|i| i == "X" || i == "O"}
-  end
-
-  def draw?(board)
-    if !won?(board) && full?(board)
-      true
-    elsif !won?(board) && !full?(board)
-      false
-    else
-      false
-    end
-  end
-
-  def end?(board)
-    if draw?(board) || won?(board) || full?(board)
-      true
-    end
   end
 
   def winner(board)
@@ -87,12 +75,24 @@ class TicTacToe
     end
   end
 
-  def display_board(board)
-    puts "\n  #{board[0]} | #{board[1]} | #{board[2]} "
-    puts " -----------"
-    puts "  #{board[3]} | #{board[4]} | #{board[5]} "
-    puts " -----------"
-    puts "  #{board[6]} | #{board[7]} | #{board[8]} "
+  def full?(board)
+    board.all? { |i| i == 'X' || i == 'O' }
+  end
+
+  def draw?(board)
+    if !won?(board) && full?(board)
+      true
+    elsif !won?(board) && !full?(board)
+      false
+    elsif won?(board)
+      false
+    end
+  end
+
+  def over?(board)
+    if draw?(board) || won?(board) || full?(board)
+      true
+    end
   end
 
   protected
@@ -152,7 +152,7 @@ until quit_playing
   puts " Player 1 will be 'X' and Player 2 will be 'O'"
   puts "\n"
   sample_board = %w[1 2 3 4 5 6 7 8 9]
-  new_game.display_board(sample_board)
+  CreateBoard.display_board(sample_board)
   puts "\n"
 
   board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
