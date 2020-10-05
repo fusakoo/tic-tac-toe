@@ -18,4 +18,5 @@
     <li>Decouple methods into appropriate classes (currently main class TicTacToe has too many lines)</li>
     <li>Add a Player class to allow name customization & further user friendliness</li>
     <li>Add more documentation to explain some logics</li>
+    <li>Add win count per player</li>
 </ul>
