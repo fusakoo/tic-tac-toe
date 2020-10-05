@@ -1,24 +1,19 @@
 require_relative 'classes'
 
 # Runs the game logic
-
 class TicTacToe < Board
-  WIN_COMBINATIONS = [
-    [0, 1, 2], # top horizontal
-    [3, 4, 5], # mid horizontal
-    [6, 7, 8], # bottom horizontal
-    [0, 3, 6], # left vertical
-    [1, 4, 7], # mid vertical
-    [2, 5, 8], # right vertical
-    [0, 4, 8], # upper-left to lower-bottom vertical
-    [6, 4, 2]  # bottom-left to upper-right vertical
-  ]
+  def initialize(player1, player2)
+    @player1 = player1
+    @player2 = player2
+  end
 
   def play(board)
     turn(board) until done?(board)
     if won?(board)
-      winner(board) == "X" ? (match_winner = "Player 1") : (match_winner = "Player 2")
-      puts "\n Ding ding! #{match_winner}, you did it!"
+      match_winner = winner(board) == 'X' ? @player1 : @player2
+      match_winner.score += 1
+      puts "\n Ding ding! #{match_winner.name}, you're the winner!"
+      puts " Current score: #{@player1.name} #{@player1.score} | #{@player2.name} #{@player2.score}"
     elsif draw?(board)
       puts "\n Draw!"
     end
@@ -26,9 +21,9 @@ class TicTacToe < Board
 
   def turn(board)
     if turn_count(board).even?
-      puts "\n Player 1('X'), please enter 1-9: "
+      puts "\n #{@player1.name} ('X'), please enter 1-9: "
     else
-      puts "\n Player 2('O'), please enter 1-9: "
+      puts "\n #{@player2.name} ('O'), please enter 1-9: "
     end
     user_input = gets.strip
     index = input_to_index(user_input)
@@ -42,14 +37,14 @@ class TicTacToe < Board
 
   def won?(board)
     WIN_COMBINATIONS.each do |combination| # check value (X or O) at win spots
-      spot_1 = board[combination[0]]
-      spot_2 = board[combination[1]]
-      spot_3 = board[combination[2]]
+      spot1 = board[combination[0]]
+      spot2 = board[combination[1]]
+      spot3 = board[combination[2]]
 
       # the combination must be returned in order for winner() method to work
-      if spot_taken?(board, combination[0]) && 
-         spot_1 == spot_2 && 
-         spot_2 == spot_3
+      if spot_taken?(board, combination[0]) &&
+         spot1 == spot2 &&
+         spot2 == spot3
         return combination
       end
     end
@@ -77,9 +72,7 @@ class TicTacToe < Board
   end
 
   def done?(board)
-    if draw?(board) || won?(board) || full?(board)
-      true
-    end
+    draw?(board) || won?(board) || full?(board)
   end
 
   def input_to_index(input)
