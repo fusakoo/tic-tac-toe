@@ -3,7 +3,7 @@
 
 <hr>
 
-<h3>Bug log<h3>
+<h3>Bug log</h3>
 <ul>
     <li>1. Does not display_board after every turn => resolved 10/01/2020</li>
     <li>2. Position_taken? not working as expected => resolved 10/01/2020</li>
@@ -13,8 +13,9 @@
 
 <hr>
 
-<h3>TODO<h3>
+<h3>TODO</h3>
 <ul>
-    <li>Decouple methods into appropriate classes (currently too many lines)</li>
-    <li>Add more documentation</li>
+    <li>Decouple methods into appropriate classes (currently main class TicTacToe has too many lines)</li>
+    <li>Add a Player class to allow name customization & further user friendliness</li>
+    <li>Add more documentation to explain some logics</li>
 </ul>
