@@ -1,12 +1,5 @@
 # require_relative 'move'
 
-# Status: Currently bugged 10/01/2020
-# 1. Does not display_board after every turn => resolved
-# 2. Position_taken? not working as expected => resolved
-# 3. Need to invalidate inputs for values other than 1-9 => resolved
-# 4. Need to decouple some of the classes
-# 5. won? is not working
-
 module CreateBoard
   def self.display_board(board)
     puts "\n  #{board[0]} | #{board[1]} | #{board[2]} "
@@ -35,10 +28,13 @@ class TicTacToe
   # end
 
   def play(board)
-    turn(board) until over?(board)
+    # turn(board) until over?(board)
+    until over?(board)
+      turn(board)
+    end
     if won?(board)
-      winner(board) == 'X' || winner(board) == 'O'
-      puts "\n Ding ding! #{winner(board)} you did it!"
+      winner(board) == "X" ? (match_winner = "Player 1") : (match_winner = "Player 2")
+      puts "\n Ding ding! #{match_winner}, you did it!"
     elsif draw?(board)
       puts "\n Draw!"
     end
@@ -59,12 +55,17 @@ class TicTacToe
   end
 
   def won?(board)
-    WIN_COMBINATIONS.each do |win_combination|
-      position_1 = board[win_combination[0]]
-      position_2 = board[win_combination[1]]
-      position_3 = board[win_combination[2]]
+    WIN_COMBINATIONS.each do |combination|
+      position_1 = board[combination[0]]
+      position_2 = board[combination[1]]
+      position_3 = board[combination[2]]
 
-      position_1 == position_2 && position_2 == position_3 #&& position_taken?(board, win_combination[0])
+      # the combination must be returned in order for winner() method to work
+      if position_taken?(board, combination[0]) && 
+         position_1 == position_2 && 
+         position_2 == position_3
+        return combination
+      end
     end
     false
   end
@@ -158,7 +159,7 @@ until quit_playing
   board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
   new_game.play(board)
 
-  puts " To stop playing, type 'quit'. Otherwise, hit 'Enter' to play again."
+  puts "\n To stop playing, type 'quit'. Otherwise, hit 'Enter' to play again."
   next unless gets.chomp == 'quit'
 
   quit_playing = true
