@@ -2,9 +2,10 @@
 
 # Status: Currently bugged 10/01/2020
 # 1. Does not display_board after every turn => resolved
-# 2. Position_taken? not working as expected
-# 3. Need to invalidate inputs for values other than 1-9
+# 2. Position_taken? not working as expected => resolved
+# 3. Need to invalidate inputs for values other than 1-9 => resolved
 # 4. Need to decouple some of the classes
+# 5. won? is not working
 
 class TicTacToe
   def play(board)
@@ -116,6 +117,12 @@ class TicTacToe
   def valid_move?(board, index)
     if index.between?(0, 8) && !position_taken?(board, index)
       true
+    elsif !(index.between?(0,8))
+      puts "\n Invalid number (must be between 1-9)."
+      puts " Try selecting another spot."
+    else
+      puts "\n The spot you've selected ('#{index + 1}') is taken."
+      puts " Try selecting another spot."
     end
   end
 
