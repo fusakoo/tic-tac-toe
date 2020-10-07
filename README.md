@@ -3,6 +3,8 @@ CLI-based Tic Tac Toe game built in Ruby
 
 [![Run on Repl.it](https://repl.it/badge/github/fusakoo/tic-tac-toe)](https://repl.it/github/fusakoo/tic-tac-toe)
 
+**Repl.it:** To play the game, enter `ruby main.rb` in the terminal.
+
 ### Features
 - Customizable names for players (for clarity during play)
 - Replayable (win count tracking TBD)

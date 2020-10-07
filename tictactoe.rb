@@ -15,8 +15,8 @@ class TicTacToe < Board
     if won?
       match_winner = winner == 'X' ? @player1 : @player2
       match_winner.score += 1
-      puts "\n Ding ding! #{match_winner.name}, you're the winner!"
-      puts " Current score: #{@player1.name} #{@player1.score} | #{@player2.name} #{@player2.score}"
+      puts "\nDing ding! #{match_winner.name}, you're the winner!"
+      puts "Current score: #{@player1.name} #{@player1.score} | #{@player2.name} #{@player2.score}"
     elsif draw?
       puts "\n Draw!"
     end
@@ -24,9 +24,9 @@ class TicTacToe < Board
 
   def turn
     if turn_count.even?
-      puts "\n #{@player1.name} ('X'), please enter a number between 1-9: "
+      puts "\n#{@player1.name} ('X'), please enter a number between 1-9: "
     else
-      puts "\n #{@player2.name} ('O'), please enter a number between 1-9: "
+      puts "\n#{@player2.name} ('O'), please enter a number between 1-9: "
     end
     user_input = gets.strip
     index = input_to_index(user_input)
@@ -94,11 +94,11 @@ class TicTacToe < Board
     if index.between?(0, 8) && !spot_taken?(index)
       true
     elsif !index.between?(0, 8)
-      puts "\n You've inputted an invalid number (must be between 1-9)."
-      puts " Please select a spot: "
+      puts "\nYou've inputted an invalid number (must be between 1-9)."
+      puts "Please select a spot: "
     else
-      puts "\n The spot you've selected ('#{index + 1}') is taken."
-      puts " Please select another spot: "
+      puts "\nThe spot you've selected ('#{index + 1}') is taken."
+      puts "Please select another spot: "
     end
   end
 
