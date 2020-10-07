@@ -2,47 +2,50 @@ require_relative 'classes'
 
 # Runs the game logic
 class TicTacToe < Board
+  attr_reader :board
+
   def initialize(player1, player2)
+    @board = Array.new(9, ' ')
     @player1 = player1
     @player2 = player2
   end
 
-  def play(board)
-    turn(board) until done?(board)
-    if won?(board)
-      match_winner = winner(board) == 'X' ? @player1 : @player2
+  def play
+    turn until done?
+    if won?
+      match_winner = winner == 'X' ? @player1 : @player2
       match_winner.score += 1
       puts "\n Ding ding! #{match_winner.name}, you're the winner!"
       puts " Current score: #{@player1.name} #{@player1.score} | #{@player2.name} #{@player2.score}"
-    elsif draw?(board)
+    elsif draw?
       puts "\n Draw!"
     end
   end
 
-  def turn(board)
-    if turn_count(board).even?
+  def turn
+    if turn_count.even?
       puts "\n #{@player1.name} ('X'), please enter 1-9: "
     else
       puts "\n #{@player2.name} ('O'), please enter 1-9: "
     end
     user_input = gets.strip
     index = input_to_index(user_input)
-    if valid_move?(board, index)
-      move(board, index, current_player(board))
-      Board.display_board(board)
+    if valid_move?(index)
+      move(index, current_player)
+      Board.display_board(@board)
     end
   end
 
   protected
 
-  def won?(board)
+  def won?
     WIN_COMBINATIONS.each do |combination| # check value (X or O) at win spots
-      spot1 = board[combination[0]]
-      spot2 = board[combination[1]]
-      spot3 = board[combination[2]]
+      spot1 = @board[combination[0]]
+      spot2 = @board[combination[1]]
+      spot3 = @board[combination[2]]
 
       # the combination must be returned in order for winner() method to work
-      if spot_taken?(board, combination[0]) &&
+      if spot_taken?(combination[0]) &&
          spot1 == spot2 &&
          spot2 == spot3
         return combination
@@ -51,44 +54,44 @@ class TicTacToe < Board
     false
   end
 
-  def winner(board)
-    if won?(board)
-      board[won?(board)[0]]
+  def winner
+    if won?
+      Array(@board)[won?[0]]
     end
   end
 
-  def full?(board)
-    board.all? { |i| i == 'X' || i == 'O' }
+  def full?
+    @board.all? { |spot| spot != ' ' }
   end
 
-  def draw?(board)
-    if !won?(board) && full?(board)
+  def draw?
+    if !won? && full?
       true
-    elsif !won?(board) && !full?(board)
+    elsif !won? && !full?
       false
-    elsif won?(board)
+    elsif won?
       false
     end
   end
 
-  def done?(board)
-    draw?(board) || won?(board) || full?(board)
+  def done?
+    draw? || won? || full?
   end
 
   def input_to_index(input)
     input.to_i - 1
   end
 
-  def move(board, index, player)
-    board[index] = player
+  def move(index, player)
+    @board[index] = player
   end
 
-  def spot_taken?(board, index)
-    board[index] != ' '
+  def spot_taken?(index)
+    @board[index] != ' '
   end
 
-  def valid_move?(board, index)
-    if index.between?(0, 8) && !spot_taken?(board, index)
+  def valid_move?(index)
+    if index.between?(0, 8) && !spot_taken?(index)
       true
     elsif !(index.between?(0,8))
       puts "\n You've inputted an invalid number (must be between 1-9)."
@@ -99,9 +102,9 @@ class TicTacToe < Board
     end
   end
 
-  def turn_count(board)
+  def turn_count
     counter = 0
-    board.each do |spot|
+    @board.each do |spot|
       if %w[X O].include? spot
         counter += 1
       end
@@ -109,7 +112,7 @@ class TicTacToe < Board
     counter
   end
 
-  def current_player(board)
-    turn_count(board).even? ? 'X' : 'O'
+  def current_player
+    turn_count.even? ? 'X' : 'O'
   end
 end

@@ -6,22 +6,20 @@ def play_game
   puts "\n Let's play Tic Tac Toe!"
   puts "\n Use numbers 1-9 to pick a spot on the grid"
   puts " Player 1 will be 'X' and Player 2 will be 'O'"
-  sample_board = Board.new([*1..10])
-  sample_board.display_board
+  Board.display_board([*1..10])
 
   puts "\n Alright. Player 1, what's your name?"
   @name1 = gets.chomp
   player1 = Player.new(@name1)
 
-  puts "\n Great! Player 2, what's your name?"
+  puts " Great! Player 2, what's your name?"
   @name2 = gets.chomp
   player2 = Player.new(@name2)
 
   new_game = TicTacToe.new(player1, player2)
-  new_board = Board.new
-  new_board.display_board
+  Board.display_board(new_game.board)
 
-  new_game.play(new_board.board)
+  new_game.play
   replay_game(player1, player2)
 end
 
@@ -29,12 +27,10 @@ def new_game(player1, player2)
   puts "\n Let's play Tic Tac Toe!"
   puts "\n Use numbers 1-9 to pick a spot on the grid"
   puts " Player 1 will be 'X' and Player 2 will be 'O'"
-  sample_board = Board.new([*1..10])
-  sample_board.display_board
+  Board.display_board([*1..10])
 
   new_game = TicTacToe.new(player1, player2)
-  new_board = Board.new
-  new_game.play(new_board.board)
+  new_game.play
 end
 
 def replay_game(player1, player2)
