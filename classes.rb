@@ -1,4 +1,4 @@
-# Stores player data
+# stores player data
 class Player
   attr_accessor :name, :score
 
@@ -8,7 +8,7 @@ class Player
   end
 end
 
-# Creates the board for the game
+# creates the board for the game
 class Board
   WIN_COMBINATIONS = [
     [0, 1, 2], # top horizontal

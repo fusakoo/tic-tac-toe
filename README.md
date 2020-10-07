@@ -6,11 +6,10 @@ CLI-based Tic Tac Toe game built in Ruby
 ### Features
 - Customizable names for players (for clarity during play)
 - Replayable (win count tracking TBD)
+- Win counter for each player at the end of round
 
 ### TODO
-1. Decouple methods into appropriate classes (currently main class TicTacToe has too many lines)
-2. Add more documentation to explain some logics
-3. Add win count per Player
+TBD
 
 ### Bug log
 1. Does not display_board after every turn => resolved 10/01/2020

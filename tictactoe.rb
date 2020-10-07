@@ -1,6 +1,6 @@
 require_relative 'classes'
 
-# Runs the game logic
+# main class that runs the game logic
 class TicTacToe < Board
   attr_reader :board
 
@@ -24,9 +24,9 @@ class TicTacToe < Board
 
   def turn
     if turn_count.even?
-      puts "\n #{@player1.name} ('X'), please enter 1-9: "
+      puts "\n #{@player1.name} ('X'), please enter a number between 1-9: "
     else
-      puts "\n #{@player2.name} ('O'), please enter 1-9: "
+      puts "\n #{@player2.name} ('O'), please enter a number between 1-9: "
     end
     user_input = gets.strip
     index = input_to_index(user_input)
@@ -56,7 +56,7 @@ class TicTacToe < Board
 
   def winner
     if won?
-      Array(@board)[won?[0]]
+      @board[won?[0]]
     end
   end
 
@@ -95,7 +95,7 @@ class TicTacToe < Board
       true
     elsif !(index.between?(0,8))
       puts "\n You've inputted an invalid number (must be between 1-9)."
-      puts " Please select another spot: "
+      puts " Please select a spot: "
     else
       puts "\n The spot you've selected ('#{index + 1}') is taken."
       puts " Please select another spot: "
