@@ -29,7 +29,7 @@ end
 # begin a new instance of game
 def begin_new_game(player1, player2)
   puts "\n Alright, let's play again."
-  puts " Here's the grid with numbers 1-9 corresponding to the spots again."
+  puts " Here's the grid with numbers 1-9 on it for your reference."
   Board.display_board([*1..10])
 
   new_game = TicTacToe.new(player1, player2)
