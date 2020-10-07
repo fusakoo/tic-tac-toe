@@ -41,7 +41,7 @@ end
 def ask_new_game(player1, player2)
   responded = false
 
-  until responded do
+  until responded
     puts " Would you like to play again? (Enter 'Y' for yes, 'N' for no)"
     response = gets.chomp.upcase
 

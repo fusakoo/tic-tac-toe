@@ -10,6 +10,9 @@ end
 
 # creates the board for the game
 class Board
+  # note: when @board is defined in initialize here & super'ed into TicTacToe
+  # the board instance variable has MethodError w/ array methods b/c Board class
+
   WIN_COMBINATIONS = [
     [0, 1, 2], # top horizontal
     [3, 4, 5], # mid horizontal

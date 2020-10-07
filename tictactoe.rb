@@ -93,7 +93,7 @@ class TicTacToe < Board
   def valid_move?(index)
     if index.between?(0, 8) && !spot_taken?(index)
       true
-    elsif !(index.between?(0,8))
+    elsif !index.between?(0, 8)
       puts "\n You've inputted an invalid number (must be between 1-9)."
       puts " Please select a spot: "
     else
